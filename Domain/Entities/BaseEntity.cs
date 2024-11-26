@@ -22,12 +22,14 @@ public class BaseEntity
     /// <returns></returns>
     public override bool Equals(object? obj)
     {
-        if (obj is null || obj.GetType() != GetType())
+        /*if (obj is null || obj.GetType() != GetType())
         {
             return false;
         }
         var id = ((BaseEntity)obj).Id;
-        return id == Id;
+        return id == Id;*/
+
+        return obj is BaseEntity other && Id == other.Id;
     }
 
     /// <summary>
