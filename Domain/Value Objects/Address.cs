@@ -3,7 +3,7 @@ namespace Domain.Value_Objects;
 /// <summary>
 /// Адрес аптеки
 /// </summary>
-public class Address
+public class Address : BaseValueObject
 {
     /// <summary>
     /// Конструктор

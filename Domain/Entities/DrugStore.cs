@@ -18,6 +18,7 @@ public class DrugStore : BaseEntity
         DrugNetwork = drugNetwork;
         Number = number;
         Address = address;
+        DrugItems = new List<DrugItem>();
     }
     /// <summary>
     /// Сеть аптек
@@ -32,5 +33,8 @@ public class DrugStore : BaseEntity
     /// </summary>
     public Address Address { get; private set; }
     
-    
+    /// <summary>
+    /// Список препаратов, доступных в аптеке
+    /// </summary>
+    public List<DrugItem> DrugItems { get; private set; }
 }
