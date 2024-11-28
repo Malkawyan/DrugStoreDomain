@@ -11,7 +11,7 @@ public class BaseValueObject
     public string Name { get; private set; }
 
     /// <summary>
-    /// Сравнение
+    /// Сравнение ValueObject
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
@@ -19,7 +19,10 @@ public class BaseValueObject
     {
         return obj is BaseValueObject other && Name == other.Name;
     }
-
+    /// <summary>
+    /// Получение Hash кода
+    /// </summary>
+    /// <returns></returns>
     public override int GetHashCode()
     {
         return Name.GetHashCode();

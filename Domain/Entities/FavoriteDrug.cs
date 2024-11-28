@@ -5,7 +5,12 @@ namespace Domain.Entities;
 /// </summary>
 public class FavoriteDrug : BaseEntity
 {
-
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="profileId"></param>
+    /// <param name="drugId"></param>
+    /// <param name="drugStoreId"></param>
     public FavoriteDrug(Guid profileId, Guid drugId, Guid drugStoreId)
     {
         ProfileId = profileId;
@@ -41,4 +46,6 @@ public class FavoriteDrug : BaseEntity
     /// Навигационное свойство к аптеке
     /// </summary>
     public DrugStore DrugStore { get; private set; }
+    
+    
 }
