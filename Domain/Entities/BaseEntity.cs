@@ -33,7 +33,7 @@ public class BaseEntity
     }
 
     /// <summary>
-    /// Переопределение GetHashCode
+    /// Сравнение GetHashCode
     /// Если два объекта равны согласно Equals(), их хэш-коды, возвращаемые GetHashCode(), также должны быть равны.
     /// </summary>
     /// <returns></returns>

@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Domain.Entities;
 
 /// <summary>
@@ -15,7 +17,7 @@ public class Drug : BaseEntity
         Name = name;
         Manufacturer = manufacturer;
         CountryCodeId = countrycodeid;
-        DrugItems = new List<DrugItem>();
+        DrugItems = new Collection<DrugItem>();
     }
 
     /// <summary>
@@ -41,6 +43,6 @@ public class Drug : BaseEntity
     /// <summary>
     /// Список связей между аптекой и препаратом 
     /// </summary>
-    public List<DrugItem> DrugItems { get; private set; }
+    public Collection <DrugItem> DrugItems { get; private set; }
 
 }

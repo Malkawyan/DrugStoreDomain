@@ -1,4 +1,5 @@
 using Domain.Value_Objects;
+using System.Collections.ObjectModel;
 
 namespace Domain.Entities;
 
@@ -18,7 +19,7 @@ public class DrugStore : BaseEntity
         DrugNetwork = drugNetwork;
         Number = number;
         Address = address;
-        DrugItems = new List<DrugItem>();
+        DrugItems = new Collection<DrugItem>();
     }
     /// <summary>
     /// Сеть аптек
@@ -36,5 +37,5 @@ public class DrugStore : BaseEntity
     /// <summary>
     /// Список препаратов, доступных в аптеке
     /// </summary>
-    public List<DrugItem> DrugItems { get; private set; }
+    public Collection<DrugItem> DrugItems { get; private set; }
 }

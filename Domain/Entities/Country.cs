@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 namespace Domain.Entities;
 
 /// <summary>
@@ -18,7 +19,7 @@ public class Country : BaseEntity
     /// <summary>
     ///  Список препаратов, связанных с этой страной.
     /// </summary>
-    public List<string> Drugs { get; private set; }
+    public Collection<Drug> Drugs { get; private set; }
 
     /// <summary>
     /// Конструктор
@@ -29,6 +30,6 @@ public class Country : BaseEntity
     {
         Name = name;
         Code = code;
-        Drugs = new List<string>();
+        Drugs = new Collection<Drug>();  
     }
 }
