@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Ardalis.GuardClauses;
+using Domain.Primitives;
 using Domain.Validators;
 
 namespace Domain.Entities;
@@ -15,11 +16,12 @@ public class Drug : BaseEntity
     /// Конструктор
     /// </summary>
     /// <param name="name"></param>
-    public Drug(string name, string manufacturer, string countrycodeid)
+    public Drug(string name, string manufacturer, string countrycodeid, Country country)
     {
-        Name = Guard.Against.NullOrWhiteSpace(name, nameof(name));
-        Manufacturer = Guard.Against.NullOrWhiteSpace(manufacturer, nameof(manufacturer));
-        CountryCodeId = Guard.Against.NullOrWhiteSpace(countrycodeid, nameof(countrycodeid));
+        Name = Guard.Against.NullOrWhiteSpace(name, nameof(name), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Manufacturer = Guard.Against.NullOrWhiteSpace(manufacturer, nameof(manufacturer), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        CountryCodeId = Guard.Against.NullOrWhiteSpace(countrycodeid, nameof(countrycodeid), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Country = Guard.Against.Null(country, nameof(country), ValidationMessage.NullOrWhiteSpaceOrEmpty);
         DrugItems = new Collection<DrugItem>();
 
         var validator = new DrugValidator();
