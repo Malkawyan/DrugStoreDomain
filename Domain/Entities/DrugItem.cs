@@ -1,3 +1,7 @@
+using Ardalis.GuardClauses;
+using Domain.Primitives;
+using Domain.Validators;
+
 namespace Domain.Entities;
 
 /// <summary>
@@ -14,10 +18,14 @@ public class DrugItem : BaseEntity
 /// <param name="count"></param>
     public DrugItem(Guid drugId, Guid drugStoreId, decimal cost, int count)
     {
-        DrugId = drugId;
-        DrugStoreId = drugStoreId;
-        Cost = cost;
-        Count = count;
+        DrugId = Guard.Against.NullOrEmpty(drugId, nameof(drugId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        DrugStoreId = Guard.Against.NullOrEmpty(drugStoreId, nameof(drugStoreId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Cost = Guard.Against.NegativeOrZero(cost, nameof(cost),ValidationMessage.NegativeOrZero);
+        Count = Guard.Against.NegativeOrZero(count, nameof(count), ValidationMessage.NegativeOrZero);
+
+        var validator = new DrugItemValidator();
+
+        validator.Validate(this);
     }
     
     /// <summary>
