@@ -1,10 +1,14 @@
 using System.Collections.ObjectModel;
+using Ardalis.GuardClauses;
+using Domain.Primitives;
+using Domain.Validators;
+
 namespace Domain.Entities;
 
 /// <summary>
 /// Справочник стран
 /// </summary>
-public class Country : BaseEntity
+public class Country : BaseEntity<Country>
 {
     /// <summary>
     /// Название страны
@@ -19,7 +23,7 @@ public class Country : BaseEntity
     /// <summary>
     ///  Список препаратов, связанных с этой страной.
     /// </summary>
-    public Collection<Drug> Drugs { get; private set; }
+    public ICollection<Drug> Drugs { get; private set; }
 
     /// <summary>
     /// Конструктор
@@ -28,8 +32,12 @@ public class Country : BaseEntity
     /// <param name="code"></param>
     public Country(string name, string code)
     {
-        Name = name;
-        Code = code;
-        Drugs = new Collection<Drug>();  
+        Name = Guard.Against.NullOrWhiteSpace(name, nameof(name), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Code = Guard.Against.NullOrWhiteSpace(code, nameof(code), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Drugs = new Collection<Drug>();
+
+        var validator = new CountryValidator();
+
+        validator.Validate(this);
     }
 }

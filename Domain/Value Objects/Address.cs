@@ -1,3 +1,6 @@
+using Ardalis.GuardClauses;
+using Domain.Primitives;
+
 namespace Domain.Value_Objects;
 
 /// <summary>
@@ -11,11 +14,13 @@ public class Address : BaseValueObject
     /// <param name="street"></param>
     /// <param name="city"></param>
     /// <param name="house"></param>
-    public Address(string street, string city, string house)
+    public Address(string street, string city, string house, int postalCode, string country)
     {
-        Street = street;
-        City = city;
-        House = house;
+        Street = Guard.Against.NullOrWhiteSpace(street, nameof(street), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        City = Guard.Against.NullOrWhiteSpace(city, nameof(city), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        House = Guard.Against.NullOrWhiteSpace(house, nameof(house), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        PostalCode = Guard.Against.NegativeOrZero(postalCode, nameof(postalCode), ValidationMessage.NegativeOrZero);
+        Country = Guard.Against.NullOrWhiteSpace(country, nameof(country), ValidationMessage.NullOrWhiteSpaceOrEmpty);
     }
     /// <summary>
     /// Город
@@ -29,6 +34,17 @@ public class Address : BaseValueObject
     /// Дом
     /// </summary>
     public string House { get; private set; }
+    
+    /// <summary>
+    /// Почтовый индекс
+    /// </summary>
+    public int PostalCode { get; private set; }
+    
+    /// <summary>
+    /// ISO код страны
+    /// </summary>
+    public string Country { get; private set; }
+    
     /// <summary>
     /// Переопределение ToString()
     /// </summary>

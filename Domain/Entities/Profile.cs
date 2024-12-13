@@ -1,8 +1,11 @@
+using Ardalis.GuardClauses;
+using Domain.Primitives;
+
 namespace Domain.Entities;
 /// <summary>
 /// Профиль пользователя
 /// </summary>
-public class Profile : BaseEntity
+public class Profile : BaseEntity<Profile>
 {
     /// <summary>
     /// Конструктор
@@ -10,7 +13,7 @@ public class Profile : BaseEntity
     /// <param name="userId"></param>
     public Profile(Guid userId)
     {
-        UserId = userId;
+        UserId = Guard.Against.NullOrEmpty(userId, nameof(userId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
     }
     
     /// <summary>

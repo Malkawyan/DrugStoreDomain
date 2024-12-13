@@ -1,9 +1,12 @@
+using Ardalis.GuardClauses;
+using Domain.Primitives;
+
 namespace Domain.Entities;
 
 /// <summary>
 /// Избранный препарат
 /// </summary>
-public class FavoriteDrug : BaseEntity
+public class FavoriteDrug : BaseEntity<FavoriteDrug>
 {
     /// <summary>
     /// Конструктор
@@ -11,11 +14,15 @@ public class FavoriteDrug : BaseEntity
     /// <param name="profileId"></param>
     /// <param name="drugId"></param>
     /// <param name="drugStoreId"></param>
-    public FavoriteDrug(Guid profileId, Guid drugId, Guid drugStoreId)
+    public FavoriteDrug(Guid profileId, Guid drugId, Guid drugStoreId, Profile profile, Drug drug, DrugStore drugStore)
     {
-        ProfileId = profileId;
-        DrugId = drugId;
-        DrugStoreId = drugStoreId;
+        ProfileId = Guard.Against.Null(profileId, nameof(profileId),ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        DrugId = Guard.Against.Null(drugId, nameof(drugId),ValidationMessage.NullOrWhiteSpaceOrEmpty);;
+        DrugStoreId = Guard.Against.Null(drugStoreId, nameof(drugStoreId),ValidationMessage.NullOrWhiteSpaceOrEmpty);;
+
+        Profile = Guard.Against.Null(profile, nameof(profile), ValidationMessage.NullOrWhiteSpaceOrEmpty);
+        Drug = Guard.Against.Null(drug, nameof(drug), ValidationMessage.NullOrWhiteSpaceOrEmpty); 
+        DrugStore = Guard.Against.Null(drugStore, nameof(drugStore), ValidationMessage.NullOrWhiteSpaceOrEmpty);
     }
     /// <summary>
     /// Идентификатор профиля пользователя
@@ -46,6 +53,4 @@ public class FavoriteDrug : BaseEntity
     /// Навигационное свойство к аптеке
     /// </summary>
     public DrugStore DrugStore { get; private set; }
-    
-    
 }
