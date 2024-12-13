@@ -26,20 +26,7 @@ public class DrugValidator : AbstractValidator<Drug>
         RuleFor(d=>d.CountryCodeId)
             .Length(2).WithMessage(ValidationMessage.LengthMessageSingle)
             .Matches("[A-Z]+").WithMessage(ValidationMessage.MessageSymbols)
-            .Must(IsValidCountryCode).WithMessage(ValidationMessage.Iso);
+            .Must(ValidCountryCode.IsValidCountryCode).WithMessage(ValidationMessage.Iso);
     }
 
-    /// <summary>
-    /// Проверка на существующий ISO код страны
-    /// </summary>
-    /// <param name="countryCode"></param>
-    /// <returns></returns>
-    private static bool IsValidCountryCode(string countryCode)
-    {
-        var regions = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-            .Select(c => new RegionInfo(c.LCID).TwoLetterISORegionName)
-            .Distinct(StringComparer.OrdinalIgnoreCase);
-
-        return regions.Contains(countryCode.ToUpperInvariant());
-    }
 }

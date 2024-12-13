@@ -1,6 +1,6 @@
 namespace Domain.Primitives;
 /// <summary>
-/// Сообщения дял валидации
+/// Сообщения для валидации
 /// </summary>
 public static class ValidationMessage
 {

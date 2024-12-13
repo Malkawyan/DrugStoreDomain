@@ -8,7 +8,7 @@ namespace Domain.Entities;
 /// <summary>
 /// Справочник стран
 /// </summary>
-public class Country : BaseEntity
+public class Country : BaseEntity<Country>
 {
     /// <summary>
     /// Название страны
@@ -23,7 +23,7 @@ public class Country : BaseEntity
     /// <summary>
     ///  Список препаратов, связанных с этой страной.
     /// </summary>
-    public Collection<Drug> Drugs { get; private set; }
+    public ICollection<Drug> Drugs { get; private set; }
 
     /// <summary>
     /// Конструктор

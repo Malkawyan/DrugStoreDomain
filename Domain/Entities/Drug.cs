@@ -9,7 +9,7 @@ namespace Domain.Entities;
 /// <summary>
 /// Препарат
 /// </summary>
-public class Drug : BaseEntity
+public class Drug : BaseEntity<Drug>
 {
 
     /// <summary>

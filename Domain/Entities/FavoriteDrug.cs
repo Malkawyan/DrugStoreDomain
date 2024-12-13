@@ -6,7 +6,7 @@ namespace Domain.Entities;
 /// <summary>
 /// Избранный препарат
 /// </summary>
-public class FavoriteDrug : BaseEntity
+public class FavoriteDrug : BaseEntity<FavoriteDrug>
 {
     /// <summary>
     /// Конструктор

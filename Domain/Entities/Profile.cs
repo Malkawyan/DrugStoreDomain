@@ -5,7 +5,7 @@ namespace Domain.Entities;
 /// <summary>
 /// Профиль пользователя
 /// </summary>
-public class Profile : BaseEntity
+public class Profile : BaseEntity<Profile>
 {
     /// <summary>
     /// Конструктор

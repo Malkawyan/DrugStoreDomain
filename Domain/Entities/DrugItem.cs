@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using Domain.Event;
 using Domain.Primitives;
 using Domain.Validators;
 
@@ -7,7 +8,7 @@ namespace Domain.Entities;
 /// <summary>
 /// Представляет информацию о наличии препарата в конкретной аптеке
 /// </summary>
-public class DrugItem : BaseEntity
+public class DrugItem : BaseEntity<DrugItem>
 {
 /// <summary>
 /// Конструктор
@@ -16,7 +17,7 @@ public class DrugItem : BaseEntity
 /// <param name="drugStoreId"></param>
 /// <param name="cost"></param>
 /// <param name="count"></param>
-    public DrugItem(Guid drugId, Guid drugStoreId, decimal cost, int count)
+    public DrugItem(Guid drugId, Guid drugStoreId, decimal cost, double count)
     {
         DrugId = Guard.Against.NullOrEmpty(drugId, nameof(drugId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
         DrugStoreId = Guard.Against.NullOrEmpty(drugStoreId, nameof(drugStoreId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
@@ -26,6 +27,8 @@ public class DrugItem : BaseEntity
         var validator = new DrugItemValidator();
 
         validator.Validate(this);
+        
+        //AddDomainEvent(new DrugItemAddEvent(DrugId, DrugStoreId, Cost, Count));
     }
     
     /// <summary>
@@ -46,7 +49,7 @@ public class DrugItem : BaseEntity
     /// <summary>
     /// Количество препарата на складе
     /// </summary>
-    public int Count { get; private set; }
+    public double Count { get; private set; }
 
     /// <summary>
     /// Навигационное свойство к препарату
@@ -57,4 +60,61 @@ public class DrugItem : BaseEntity
     /// Навигационное свойство к аптеке
     /// </summary>
     public DrugStore DrugStore { get; private set; }
+
+    #region Методы
+
+    /// <summary>
+    /// Изменение кол-ва товара
+    /// </summary>
+    /// <param name="count"></param>
+    public void UpdateCount(double count)
+    {
+        Count = count;
+
+        ValidateEntity(new DrugItemValidator());
+        
+        AddDomainEvent(new DrugItemCountUpdatedEvent(Count));
+    }
+    
+    /// <summary>
+    /// Изменение цены товара
+    /// </summary>
+    /// <param name="cost"></param>
+    public void UpdateCost(decimal cost)
+    {
+        Cost = cost;
+
+        ValidateEntity(new DrugItemValidator());
+        
+        AddDomainEvent(new DrugItemCostUpdatedEvent(Cost));
+    }
+
+    /// <summary>
+    /// Добавление товара
+    /// </summary>
+    /// <param name="drugId"></param>
+    /// <param name="drugStoreId"></param>
+    /// <param name="cost"></param>
+    /// <param name="count"></param>
+    public void AddDrugItem(Guid drugId, Guid drugStoreId, decimal cost, double count)
+    {
+        var drugItem = new DrugItem(drugId, drugStoreId, cost, count);
+        
+        ValidateEntity(new DrugItemValidator());
+        
+        //Возможно ли эту строку указать сразу в конструкторе DrugItem?
+        AddDomainEvent(new DrugItemAddEvent(DrugId, DrugStoreId, Cost, Count));
+    }
+
+    /// <summary>
+    /// Удаление товара
+    /// </summary>
+    public void DrugItemRemove(Guid drugId, Guid drugStoreId)
+    {
+        ValidateEntity(new DrugItemValidator());
+        AddDomainEvent(new DrugItemRemoveEvent(DrugId, DrugStoreId));
+    }
+    
+    
+    #endregion
 }

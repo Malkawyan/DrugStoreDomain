@@ -1,7 +1,6 @@
 using Domain.Entities;
 using Domain.Primitives;
 using FluentValidation;
-using System.Globalization;
 
 namespace Domain.Validators;
 
@@ -33,21 +32,7 @@ public class DrugStoreValidator : AbstractValidator<DrugStore>
             .Length(5, 6).WithMessage(ValidationMessage.LenghtMessage);
         
         RuleFor(ds=>ds.Address.Country)
-            .Must(IsValidCountryCode).WithMessage(ValidationMessage.Iso);
-    }
-
-    /// <summary>
-    /// Проверка на существующий ISO код страны
-    /// </summary>
-    /// <param name="countryCode"></param>
-    /// <returns></returns>
-    private static bool IsValidCountryCode(string countryCode)
-    {
-        var regions = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-            .Select(c => new RegionInfo(c.LCID).TwoLetterISORegionName)
-            .Distinct(StringComparer.OrdinalIgnoreCase);
-
-        return regions.Contains(countryCode.ToUpperInvariant());
+            .Must(ValidCountryCode.IsValidCountryCode).WithMessage(ValidationMessage.Iso);
     }
     
 }
