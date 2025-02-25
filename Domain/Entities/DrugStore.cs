@@ -1,6 +1,8 @@
 using Domain.Value_Objects;
 using System.Collections.ObjectModel;
 using Ardalis.GuardClauses;
+using Domain.Event;
+using Domain.Events;
 using Domain.Primitives;
 using Domain.Validators;
 
@@ -27,13 +29,16 @@ public class DrugStore : BaseEntity<DrugStore>
         var validator = new DrugStoreValidator();
 
         validator.Validate(this);
+        
+        AddDomainEvent(new DrugStoreCreatedEvent(drugNetwork, number, address));
+        
     }
     /// <summary>
     /// Сеть аптек
     /// </summary>
     public string DrugNetwork { get; private set; }
     /// <summary>
-    /// Номер аптеки
+    /// Номер аптеки в сети
     /// </summary>
     public int Number { get; private set; }
     /// <summary>
@@ -45,4 +50,19 @@ public class DrugStore : BaseEntity<DrugStore>
     /// Список препаратов, доступных в аптеке
     /// </summary>
     public Collection<DrugItem> DrugItems { get; private set; }
+    
+    #region Методы
+    /// <summary>
+    /// Обновление DrugStore
+    /// </summary>
+    /// <param name="drugNetwork"></param>
+    /// <param name="number"></param>
+    /// <param name="address"></param>
+    public void UpdateDrugStore(string drugNetwork, int number, Address address)
+    {
+        ValidateEntity(new DrugStoreValidator());
+        
+        AddDomainEvent(new DrugStoreUpdatedEvent(drugNetwork, number, address));
+    }
+    #endregion
 }

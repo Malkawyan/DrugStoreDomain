@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Ardalis.GuardClauses;
+using Domain.Events;
 using Domain.Primitives;
 using Domain.Validators;
 
@@ -16,7 +17,7 @@ public class Drug : BaseEntity<Drug>
     /// Конструктор
     /// </summary>
     /// <param name="name"></param>
-    public Drug(string name, string manufacturer, string countrycodeid, Country country)
+    public Drug(string name, string manufacturer, string countrycodeid, Country country, Func<string, bool> countryExistsFunc)
     {
         Name = Guard.Against.NullOrWhiteSpace(name, nameof(name), ValidationMessage.NullOrWhiteSpaceOrEmpty);
         Manufacturer = Guard.Against.NullOrWhiteSpace(manufacturer, nameof(manufacturer), ValidationMessage.NullOrWhiteSpaceOrEmpty);
@@ -27,10 +28,12 @@ public class Drug : BaseEntity<Drug>
         var validator = new DrugValidator();
         
         validator.Validate(this);
+        AddDomainEvent(new DrugCreatedEvent(name, manufacturer, countrycodeid, country));
+        
     }
 
     /// <summary>
-    /// Имя 
+    /// Название препарата 
     /// </summary>
     public string Name { get; private set; }
 
@@ -53,5 +56,22 @@ public class Drug : BaseEntity<Drug>
     /// Список связей между аптекой и препаратом 
     /// </summary>
     public Collection <DrugItem> DrugItems { get; private set; }
+
+    #region  Методы
+    /// <summary>
+    /// Обновление Drug
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="manufacturer"></param>
+    /// <param name="countrycodeid"></param>
+    /// <param name="country"></param>
+    public void UpdateDrug(string name, string manufacturer, string countrycodeid, Country country)
+    {
+        ValidateEntity(new DrugValidator());
+        
+        AddDomainEvent(new DrugUpdatedEvent(name, manufacturer, countrycodeid, country));
+    }
+
+    #endregion
 
 }

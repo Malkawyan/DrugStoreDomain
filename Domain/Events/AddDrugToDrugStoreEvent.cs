@@ -2,10 +2,7 @@ using Domain.Interfaces;
 
 namespace Domain.Events;
 
-/// <summary>
-/// Event добавления нового товара
-/// </summary>
-internal class DrugItemAddEvent : IDomainEvent
+internal class AddDrugToDrugStoreEvent : IDomainEvent
 {
     /// <summary>
     /// Конструктор
@@ -14,7 +11,7 @@ internal class DrugItemAddEvent : IDomainEvent
     /// <param name="drugStoreId"></param>
     /// <param name="cost"></param>
     /// <param name="count"></param>
-    internal DrugItemAddEvent(Guid drugId, Guid drugStoreId, decimal cost, double count)
+    internal AddDrugToDrugStoreEvent(Guid drugId, Guid drugStoreId, decimal cost, double count)
     {
         _drugId = drugId;
         _drugStoreId = drugStoreId;

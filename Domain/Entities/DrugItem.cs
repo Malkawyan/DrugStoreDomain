@@ -1,5 +1,5 @@
 using Ardalis.GuardClauses;
-using Domain.Event;
+using Domain.Events;
 using Domain.Primitives;
 using Domain.Validators;
 
@@ -28,7 +28,7 @@ public class DrugItem : BaseEntity<DrugItem>
 
         validator.Validate(this);
         
-        //AddDomainEvent(new DrugItemAddEvent(DrugId, DrugStoreId, Cost, Count));
+        AddDomainEvent(new DrugItemAddEvent(DrugId, DrugStoreId, Cost, Count));
     }
     
     /// <summary>
@@ -65,6 +65,7 @@ public class DrugItem : BaseEntity<DrugItem>
 
     /// <summary>
     /// Изменение кол-ва товара
+    /// 
     /// </summary>
     /// <param name="count"></param>
     public void UpdateCount(double count)
@@ -102,8 +103,23 @@ public class DrugItem : BaseEntity<DrugItem>
         
         ValidateEntity(new DrugItemValidator());
         
-        //Возможно ли эту строку указать сразу в конструкторе DrugItem?
         AddDomainEvent(new DrugItemAddEvent(DrugId, DrugStoreId, Cost, Count));
+    }
+
+    /// <summary>
+    /// Добавление товара в аптеку
+    /// </summary>
+    /// <param name="drugId"></param>
+    /// <param name="drugStoreId"></param>
+    /// <param name="cost"></param>
+    /// <param name="count"></param>
+    public void AddDrugToDrugStore(Guid drugId, Guid drugStoreId, decimal cost, double count)
+    {
+        var drugItem = new DrugItem(drugId, drugStoreId, cost, count);
+        
+        ValidateEntity(new DrugItemValidator());
+        
+        AddDomainEvent(new AddDrugToDrugStoreEvent(DrugId, DrugStoreId, Cost, Count));
     }
 
     /// <summary>

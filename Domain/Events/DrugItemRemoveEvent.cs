@@ -1,6 +1,6 @@
 using Domain.Interfaces;
 
-namespace Domain.Event;
+namespace Domain.Events;
 
 /// <summary>
 /// Event удаления продукта
