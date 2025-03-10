@@ -56,6 +56,7 @@ public class DrugItem : BaseEntity<DrugItem>
     /// </summary>
     public Drug Drug { get; private set; }
     
+    
     /// <summary>
     /// Навигационное свойство к аптеке
     /// </summary>

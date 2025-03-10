@@ -1,23 +1,17 @@
-using Ardalis.GuardClauses;
-using Domain.Primitives;
+using Domain.Validators;
+using Domain.Value_Objects;
 
 namespace Domain.Entities;
-/// <summary>
-/// Профиль пользователя
-/// </summary>
-public class Profile : BaseEntity<Profile>
+
+public sealed class Profile : BaseEntity<Profile>
 {
+
     /// <summary>
-    /// Конструктор
+    /// Внешний идентификатор.
     /// </summary>
-    /// <param name="userId"></param>
-    public Profile(Guid userId)
-    {
-        UserId = Guard.Against.NullOrEmpty(userId, nameof(userId), ValidationMessage.NullOrWhiteSpaceOrEmpty);
-    }
-    
-    /// <summary>
-    /// Id пользователя
-    /// </summary>
-    public Guid UserId { get; private set; }
+    public string ExternalId { get; private init; }
+
+
+    // Навигационное свойство для связи с FavoriteDrug.
+    public List<FavoriteDrug> FavoriteDrugs { get; private set; } = [];
 }
