@@ -42,6 +42,6 @@ public class UpdateDrugCommanHadler(
         
         var country = countries.First();
         
-        await _drugWriteRepository.UpdateAsync(drug, cancellationToken);
+        _drugWriteRepository.Update(drug);
     }
 }

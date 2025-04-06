@@ -30,6 +30,6 @@ public class UpdateDrugStoreCommandHandler (
         
         var drugStore = drugStores.First();
         
-        await _drugStoreWriteRepository.UpdateAsync(drugStore, cancellationToken);
+        _drugStoreWriteRepository.Update(drugStore);
     }
 }
